@@ -10,40 +10,6 @@
 <body>
   <div class="container">
     <ul class="comments">
-      <li class="comment">
-        <div class="comment-header">
-          <div class="comment-name">Глеб Фокин</div>
-          <div class="commnet-date">12.02.22 12:18</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            Это будет первый комментарий на этой странице
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">3</span>
-            <button class="like-button"></button>
-          </div>
-        </div>
-      </li>
-      <li class="comment">
-        <div class="comment-header">
-          <div class="comment-name">Варвара Н.</div>
-          <div class="commnet-date">13.02.22 19:22</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            Мне нравится как оформлена эта страница! ❤
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">75</span>
-            <button class="like-button -active-like"></button>
-          </div>
-        </div>
-      </li>
     </ul>
     <div class="add-form">
       <input type="text" class="add-form-name" placeholder="Введите ваше имя" />
@@ -63,6 +29,7 @@
   const commentLikes = document.querySelector('.likes-counter')
   const commentBtn = document.querySelector('.add-form-button')
   const commentLi = document.querySelector('.comment')
+  const commentLikeBtn = document.getElementById('cooment-like--btn')
   const validateInput = () => {
     if (commentInput.value === '' || commentText.value === '') {
       commentBtn.disabled = true
@@ -70,6 +37,68 @@
       commentBtn.disabled = false;
     }
   }
+
+  const comments = [
+    {
+      name: 'Глеб Фокин',
+      date: '12.02.22 12:18',
+      text: 'Это будет первый комментарий на этой странице',
+      likes: 3,
+      isLikes: false,
+    },
+
+    {
+      name: 'Варвара Н.',
+      date: '13.02.22 19:22',
+      text: 'Мне нравится как оформлена эта страница! ❤',
+      likes: 75,
+      isLikes: true,
+    }
+  ]
+
+  commentsContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('like-button')){
+      const index = Number(e.target.dataset.index)
+      const comment = comments[index]
+      if (comment.isLikes){
+        comment.likes--
+        comment.isLikes = false
+      }else if(!comment.isLikes){
+        comment.likes++ 
+        comment.isLikes = true
+      }
+    }else{
+      return;
+    }
+    
+    commentsRender()
+  })
+
+  const commentsRender = () => {
+    const commentElement = comments.map((comment, index) => {
+      return `<li class="comment">
+        <div class="comment-header">
+          <div class="comment-name">${comment.name}</div>
+          <div class="commnet-date">${comment.date}</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            ${comment.text}
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">${comment.likes}</span>
+            <button id='comment-like--btn' data-index='${index}' class='${comment.isLikes ? "like-button -active-like" : "like-button"}'></button>
+          </div>
+        </div>
+      </li>`
+    }).join("")
+
+    commentsContainer.innerHTML = commentElement
+  }
+
+  commentsRender()
 
   commentInput.addEventListener('input', () => {
     validateInput()
@@ -80,26 +109,24 @@
   })
 
   commentBtn.addEventListener('click', () => {
+
+    if (commentInput.value === '' || commentText.value === '') {
+      alert('Заполните поля');
+      return;
+    }
     const commentDate = new Date()
     const commentTime = (`${commentDate.getDate()}.${(commentDate.getMonth() + 1) < 10 ? '0' + (commentDate.getMonth() + 1) : (commentDate.getMonth() + 1)}.${commentDate.getFullYear()} ${commentDate.getHours()}:${commentDate.getMinutes()}`)
-    const newCommentLi = `<li class="comment">
-        <div class="comment-header">
-          <div class="comment-name">${commentInput.value}</div>
-          <div class="commnet-date">${commentTime}</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            ${commentText.value}
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">0</span>
-            <button class="like-button"></button>
-          </div>
-        </div>
-      </li>`
-    commentsContainer.innerHTML += newCommentLi
+    const newCommentLi = {
+      name: commentInput.value,
+      date: commentTime,
+      text: commentText.value,
+      likes: 0,
+      isLikes: false
+    }
+    comments.push(newCommentLi)
+    commentsRender()
+    commentInput.value = ''
+    commentText.value = ''
   })
 
   console.log("It works!");
