@@ -38,6 +38,11 @@
     }
   }
 
+  const errorMoment = (text) => {
+    return text.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+  }
+
   const comments = [
     {
       name: 'Глеб Фокин',
@@ -57,33 +62,33 @@
   ]
 
   commentsContainer.addEventListener('click', (e) => {
-    if (e.target.classList.contains('like-button')){
+    if (e.target.classList.contains('like-button')) {
       const index = Number(e.target.dataset.index)
       const comment = comments[index]
-      if (comment.isLikes){
+      if (comment.isLikes) {
         comment.likes--
         comment.isLikes = false
-      }else if(!comment.isLikes){
-        comment.likes++ 
+      } else if (!comment.isLikes) {
+        comment.likes++
         comment.isLikes = true
       }
-    }else{
+    } else {
       return;
     }
-    
+
     commentsRender()
   })
 
   const commentsRender = () => {
     const commentElement = comments.map((comment, index) => {
-      return `<li class="comment">
+      return `<li data-index="${index}" class="comment">
         <div class="comment-header">
-          <div class="comment-name">${comment.name}</div>
+          <div class="comment-name">${errorMoment(comment.name)}</div>
           <div class="commnet-date">${comment.date}</div>
         </div>
         <div class="comment-body">
           <div class="comment-text">
-            ${comment.text}
+            ${errorMoment(comment.text)}
           </div>
         </div>
         <div class="comment-footer">
@@ -128,6 +133,23 @@
     commentInput.value = ''
     commentText.value = ''
   })
+
+  commentsContainer.addEventListener('click', (e) => {
+    const newCommentForm = e.target.closest('.comment')
+    if (e.target.classList.contains('like-button')) {
+      return;
+    }
+    else if (newCommentForm) {
+      const commentForm = newCommentForm.dataset.index
+      const commentArr = comments[commentForm]
+      const commentName = commentArr.name
+      const commentTextForm = commentArr.text
+      commentInput.value = commentName
+      commentText.value = `${commentName}, ${commentTextForm}\n>`
+    }
+  })
+
+
 
   console.log("It works!");
 </script>
