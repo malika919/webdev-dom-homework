@@ -144,9 +144,10 @@
       const commentArr = comments[commentForm]
       const commentName = commentArr.name
       const commentTextForm = commentArr.text
-      commentInput.value = commentName
-      commentText.value = `${commentName}, ${commentTextForm}\n>`
+      commentText.value = `> ${commentName}, ${commentTextForm}\n\n`
     }
+    validateInput();
+    commentText.focus();
   })
 
 
