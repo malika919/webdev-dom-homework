@@ -1,8 +1,4 @@
-import { errorMoment } from "./utils.js";
-import { formatDate } from "./utils.js";
-import { postFetchFunction } from "./api.js";
 import { getComments } from "./api.js";
-import { commentsRender } from "./render.js";
 import { clickCommentContainer } from "./listeners.js";
 import { commentInputClick } from "./listeners.js";
 import { commentTextClick } from "./listeners.js";

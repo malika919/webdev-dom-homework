@@ -5,9 +5,17 @@ const commentInput = document.querySelector(".add-form-name");
 const commentText = document.querySelector(".add-form-text");
 const commentBtn = document.querySelector(".add-form-button");
 
+const host = "https://wedev-api.sky.pro/api/v2/todos";
+
+const token =
+  "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k";
+
 export const postFetchFunction = () => {
   return fetch("https://wedev-api.sky.pro/api/v1/malika_919/comments", {
     method: "POST",
+    headers: {
+      Authorization: token,
+    },
     body: JSON.stringify({
       name: commentInput.value,
       text: commentText.value,
@@ -45,7 +53,11 @@ export const postFetchFunction = () => {
 };
 
 export const getComments = () => {
-  fetch("https://wedev-api.sky.pro/api/v1/malika_919/comments")
+  fetch("https://wedev-api.sky.pro/api/v2/malika_919/comments", {
+    headers: {
+      Authorization: token,
+    },
+  })
     .then((response) => {
       return response.json();
     })
