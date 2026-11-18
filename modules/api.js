@@ -1,7 +1,4 @@
-export const postFetchFunction = () => {
-  const name = document.querySelector(".add-form-name").value;
-  const text = document.querySelector(".add-form-text").value;
-
+export const postFetchFunction = (name, text) => {
   return fetch("https://wedev-api.sky.pro/api/v1/malika_919/comments", {
     method: "POST",
     body: JSON.stringify({ name, text }),
