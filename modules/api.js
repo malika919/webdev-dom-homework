@@ -1,20 +1,23 @@
 import { commentsRender } from "./render.js";
 import { comments } from "./data.js";
 
-const commentInput = document.querySelector(".add-form-name");
-const commentText = document.querySelector(".add-form-text");
-const commentBtn = document.querySelector(".add-form-button");
+const host = "https://wedev-api.sky.pro/api/v2/mmm/comments";
+const postToken = "https://wedev-api.sky.pro/api/user";
 
-const host = "https://wedev-api.sky.pro/api/v2/todos";
+let token = "";
 
-const token =
-  "Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k";
+export const updateToken = (newToken) => {
+  token = newToken;
+};
 
 export const postFetchFunction = () => {
-  return fetch("https://wedev-api.sky.pro/api/v1/malika_919/comments", {
+  const commentInput = document.querySelector(".add-form-name");
+  const commentText = document.querySelector(".add-form-text");
+  const commentBtn = document.querySelector(".add-form-button");
+  return fetch("https://wedev-api.sky.pro/api/v2/malika_919/comments", {
     method: "POST",
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       name: commentInput.value,
@@ -53,9 +56,9 @@ export const postFetchFunction = () => {
 };
 
 export const getComments = () => {
-  fetch("https://wedev-api.sky.pro/api/v2/malika_919/comments", {
+  return fetch("https://wedev-api.sky.pro/api/v2/malika_919/comments", {
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => {
@@ -65,8 +68,30 @@ export const getComments = () => {
       comments.length = 0; // Очищаем старый массив
       comments.push(...data.comments); // Добавляем новые
       commentsRender();
-    })
-    .catch(() => {
-      alert("Ошибка загрузки. Проверьте интернет");
     });
+};
+
+export const login = (login, password) => {
+  return fetch(`${postToken}/login`, {
+    method: "POST",
+    body: JSON.stringify({
+      login,
+      password,
+    }),
+  }).then((response) => {
+    return response.json();
+  });
+};
+
+export const registration = (login, name, password) => {
+  return fetch(postToken, {
+    method: "POST",
+    body: JSON.stringify({
+      login,
+      name,
+      password,
+    }),
+  }).then((response) => {
+    return response.json();
+  });
 };

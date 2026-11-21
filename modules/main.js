@@ -5,17 +5,20 @@ import { commentTextClick } from "./listeners.js";
 import { commentBtnClick } from "./listeners.js";
 import { newCommentContainerClick } from "./listeners.js";
 import { validateInput } from "./utils.js";
+import { renderLoginForAutorization } from "./renderLogin.js"; 
+import { renderRegistration } from "./renderRegistration.js";
+import { commentsRender, renderCommentsPage } from "./render.js";
+import { comments } from "./data.js";
 
-const commentsContainer = document.querySelector(".comments");
-validateInput();
-clickCommentContainer();
-commentsContainer.innerHTML = "Загрузка...";
-commentInputClick();
-commentTextClick();
-commentBtnClick();
-newCommentContainerClick();
-commentsContainer.disabled = true;
-commentsContainer.innerHTML =
-  "<p style='color: white; text-align: center;'>Загрузка...</p>";
+//renderCommentsPage();
+renderLoginForAutorization();
+//renderRegistration();
 
-getComments();
+//validateInput();
+//clickCommentContainer();
+//commentInputClick();
+//commentTextClick();
+//commentBtnClick();
+//newCommentContainerClick();
+
+//getComments();

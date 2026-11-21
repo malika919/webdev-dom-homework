@@ -1,7 +1,3 @@
-const commentInput = document.querySelector(".add-form-name");
-const commentText = document.querySelector(".add-form-text");
-const commentBtn = document.querySelector(".add-form-button");
-
 export function delay(interval = 300) {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -29,6 +25,12 @@ export const formatDate = (dateString) => {
 };
 
 export const validateInput = () => {
+  const commentInput = document.querySelector(".add-form-name");
+  const commentText = document.querySelector(".add-form-text");
+  const commentBtn = document.querySelector(".add-form-button");
+
+  if (!commentInput || !commentText || !commentBtn) return;
+
   if (commentInput.value === "" || commentText.value === "") {
     commentBtn.disabled = true;
   } else {

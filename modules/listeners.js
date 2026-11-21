@@ -3,12 +3,9 @@ import { commentsRender } from "./render.js";
 import { validateInput } from "./utils.js";
 import { comments } from "./data.js";
 import { delay } from "./utils.js";
-const commentsContainer = document.querySelector(".comments");
-const commentInput = document.querySelector(".add-form-name");
-const commentText = document.querySelector(".add-form-text");
-const commentBtn = document.querySelector(".add-form-button");
 
 export const clickCommentContainer = () => {
+  const commentsContainer = document.querySelector(".comments");
   return commentsContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("like-button")) {
       const index = Number(e.target.dataset.index);
@@ -31,18 +28,23 @@ export const clickCommentContainer = () => {
 };
 
 export const commentInputClick = () => {
+  const commentInput = document.querySelector(".add-form-name");
   return commentInput.addEventListener("input", () => {
     validateInput();
   });
 };
 
 export const commentTextClick = () => {
+  const commentText = document.querySelector(".add-form-text");
   return commentText.addEventListener("input", () => {
     validateInput();
   });
 };
 
 export const commentBtnClick = () => {
+  const commentText = document.querySelector(".add-form-text");
+  const commentInput = document.querySelector(".add-form-name");
+  const commentBtn = document.querySelector(".add-form-button");
   return commentBtn.addEventListener("click", () => {
     if (commentInput.value === "" || commentText.value === "") {
       alert("Заполните поля");
@@ -56,6 +58,8 @@ export const commentBtnClick = () => {
 };
 
 export const newCommentContainerClick = () => {
+  const commentText = document.querySelector(".add-form-text");
+  const commentsContainer = document.querySelector(".comments");
   return commentsContainer.addEventListener("click", (e) => {
     const newCommentForm = e.target.closest(".comment");
     if (e.target.classList.contains("like-button")) {

@@ -2,9 +2,28 @@ import { errorMoment } from "./utils.js";
 import { formatDate } from "./utils.js";
 import { comments } from "./data.js";
 
-const commentsContainer = document.querySelector(".comments");
+export const renderCommentsPage = () => {
+  const app = document.getElementById("app");
+
+  if (!app) return;
+  
+  app.innerHTML = `
+    <div id="app" class="container">
+      <ul class="comments">
+      </ul>
+      <div class="add-form">
+        <input type="text" class="add-form-name" placeholder="Введите ваше имя" />
+        <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"></textarea>
+        <div class="add-form-row">
+          <button class="add-form-button">Написать</button>
+        </div>
+      </div>
+    </div>
+  `;
+};
 
 export const commentsRender = () => {
+  const commentsContainer = document.querySelector(".comments");
   const commentElement = comments
     .map((comment, index) => {
       return `<li data-index="${index}" class="comment">
@@ -29,5 +48,3 @@ export const commentsRender = () => {
 
   commentsContainer.innerHTML = commentElement;
 };
-
-
