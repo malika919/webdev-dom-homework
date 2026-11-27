@@ -1,5 +1,6 @@
 import { getComments, updateToken } from "./api.js";
 import { login } from "./api.js";
+import { commentBtnClick } from "./listeners.js";
 import { renderCommentsPage } from "./render.js";
 import { renderRegistration } from "./renderRegistration.js";
 
@@ -25,14 +26,21 @@ export const renderLoginForAutorization = () => {
   const loginBtn = document.querySelector(".login-button");
   const loginInput = document.querySelector(".login-input");
   const passwordInput = document.querySelector(".password-input");
+  loginInput.value = "";
+  passwordInput.value = "";
 
   loginBtn.addEventListener("click", () => {
+    if (!loginInput.value.trim() || !passwordInput.value.trim()) {
+      alert("Заполните поля");
+      return;
+    }
     login(loginInput.value, passwordInput.value)
       .then((responseData) => {
         console.log(responseData);
         updateToken(responseData.user.token);
         renderCommentsPage();
         getComments();
+        commentBtnClick();
       })
       .catch((error) => {
         alert(error.message);

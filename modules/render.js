@@ -1,22 +1,28 @@
 import { errorMoment } from "./utils.js";
 import { formatDate } from "./utils.js";
 import { comments } from "./data.js";
+import { isAuth } from "./api.js";
 
 export const renderCommentsPage = () => {
   const app = document.getElementById("app");
+  const savedName = localStorage.getItem("userName" || "");
+  const formLink = isAuth()
+    ? ` <div class="add-form">
+          <input value="${savedName}" type="text" class="add-form-name" placeholder="Введите ваше имя" / readonly>
+          <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"></textarea>
+          <div class="add-form-row">
+            <button class="add-form-button">Написать</button>
+          </div>
+        </div>`
+    : `<p><a href='#' class='auto-link'>Авторизуйтесь</a>, чтобы добавить комментарий</p>`;
 
   if (!app) return;
-  
+
   app.innerHTML = `
     <div id="app" class="container">
       <ul class="comments">
       </ul>
-      <div class="add-form">
-        <input type="text" class="add-form-name" placeholder="Введите ваше имя" />
-        <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"></textarea>
-        <div class="add-form-row">
-          <button class="add-form-button">Написать</button>
-        </div>
+      ${formLink}
       </div>
     </div>
   `;

@@ -1,5 +1,6 @@
 import { registration } from "./api.js";
 import { getComments, updateToken } from "./api.js";
+import { commentBtnClick } from "./listeners.js";
 import { renderCommentsPage } from "./render.js";
 
 export const renderRegistration = () => {
@@ -31,7 +32,9 @@ export const renderRegistration = () => {
       .then((responseData) => {
         console.log(responseData);
         updateToken(responseData.user.token);
+        localStorage.setItem('userName', responseData.user.name)
         renderCommentsPage();
+        commentBtnClick();
         getComments();
       })
       .catch((error) => {
@@ -39,3 +42,4 @@ export const renderRegistration = () => {
       });
   });
 };
+

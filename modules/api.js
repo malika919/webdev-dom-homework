@@ -10,6 +10,14 @@ export const updateToken = (newToken) => {
   token = newToken;
 };
 
+export const isAuth = () => {
+  if (token) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const postFetchFunction = () => {
   const commentInput = document.querySelector(".add-form-name");
   const commentText = document.querySelector(".add-form-text");
@@ -79,6 +87,11 @@ export const login = (login, password) => {
       password,
     }),
   }).then((response) => {
+    if (!response.ok) {
+      return response.json().then((err) => {
+        throw new Error(err);
+      });
+    }
     return response.json();
   });
 };
@@ -92,6 +105,11 @@ export const registration = (login, name, password) => {
       password,
     }),
   }).then((response) => {
+    if (!response.ok) {
+      return response.json().then((err) => {
+        throw new Error(err);
+      });
+    }
     return response.json();
   });
 };

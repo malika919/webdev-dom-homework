@@ -3,6 +3,8 @@ import { commentsRender } from "./render.js";
 import { validateInput } from "./utils.js";
 import { comments } from "./data.js";
 import { delay } from "./utils.js";
+import { renderLoginForAutorization } from "./renderLogin.js";
+import { isAuth } from "./api.js";
 
 export const clickCommentContainer = () => {
   const commentsContainer = document.querySelector(".comments");
@@ -29,6 +31,9 @@ export const clickCommentContainer = () => {
 
 export const commentInputClick = () => {
   const commentInput = document.querySelector(".add-form-name");
+  if (!commentInput) {
+    return;
+  }
   return commentInput.addEventListener("input", () => {
     validateInput();
   });
@@ -36,16 +41,27 @@ export const commentInputClick = () => {
 
 export const commentTextClick = () => {
   const commentText = document.querySelector(".add-form-text");
+  if (!commentText) {
+    return;
+  }
   return commentText.addEventListener("input", () => {
     validateInput();
   });
 };
 
 export const commentBtnClick = () => {
+  console.log("клик");
   const commentText = document.querySelector(".add-form-text");
   const commentInput = document.querySelector(".add-form-name");
   const commentBtn = document.querySelector(".add-form-button");
+  if (!commentBtn) {
+    return;
+  }
   return commentBtn.addEventListener("click", () => {
+    if (!isAuth()) {
+      alert("Авторизуйтесь, чтоб оставить комментарий");
+      return;
+    }
     if (commentInput.value === "" || commentText.value === "") {
       alert("Заполните поля");
       return;
@@ -75,3 +91,14 @@ export const newCommentContainerClick = () => {
     }
   });
 };
+
+export const clickLoginBtn = () => {
+  const autorizationLink = document.querySelector(".auto-link");
+  if (autorizationLink) {
+    autorizationLink.addEventListener("click", () => {
+      renderLoginForAutorization();
+    });
+  }
+};
+
+
