@@ -69,7 +69,25 @@ export const commentBtnClick = () => {
 
     commentBtn.disabled = true;
     commentBtn.textContent = "Добавление комментария...";
-    postFetchFunction();
+    postFetchFunction(commentInput.value, commentText.value)
+      .then(() => {
+        document.querySelector(".add-form-name").value = "";
+        document.querySelector(".add-form-text").value = "";
+        commentBtn.disabled = false;
+        commentBtn.textContent = "Написать";
+
+        return getComments();
+      })
+      .then((data) => {
+        comments.length = 0;
+        comments.push(...(data.comments || []));
+        commentsRender();
+      })
+      .catch((error) => {
+        alert(error.message);
+        commentBtn.disabled = false;
+        commentBtn.textContent = "Написать";
+      });
   });
 };
 
